@@ -1,0 +1,60 @@
+
+<h1> Transactions for <%= user.username %> </h1>
+
+  <div class="row">
+    <div class="col">
+        <p> Here is your list of transactions! </p>
+        <a class="btn btn-lg btn-primary" href="/transactions/byCategory">Group by Category</a>
+        <a class="btn btn-lg btn-primary" href="/transactions?sortBy=description">Sort by Description</a>
+        <a class="btn btn-lg btn-primary" href="/transactions?sortBy=amount">Sort by Amount</a>
+        <a class="btn btn-lg btn-primary" href="/transactions?sortBy=category">Sort by Category</a>
+        <a class="btn btn-lg btn-primary" href="/transactions?sortBy=date">Sort by Date</a>
+        <br>
+        <table class="table table-bordered table-striped">
+            <tr>
+
+
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Delete</th>
+                <th>Edit</th>
+
+                
+            </tr>
+            <% transactions.forEach(item => { %>
+                <tr>
+                    <td><%= item.description %></td>
+                    <td><%= item.amount %></td>
+                    <td><%= item.category %></td>
+                    <td><%= item.date %></td>
+                    <td>
+                        <a href="/transactions/delete/<%=item._id %>">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/transactions/edit/<%=item._id %>">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+        <br>
+        <h1> Add a new transaction </h1>
+        <form method="post" action="transactions">
+            <input placeholder="description" type="text" name="description">
+            <br>
+            <input placeholder="amount" type="number" name="amount">
+            <br>
+            <input placeholder="category" type="text" name="category">
+            <br>
+            <input placeholder="mm/dd/yyyy" type="date" name="date">
+            <br>
+            <input type="submit" value="add transaction">
+        </form>
+      </div>
+    </div>
+</div>

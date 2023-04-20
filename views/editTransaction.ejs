@@ -1,0 +1,35 @@
+
+<!-- Display the item as JSON string -->
+<pre>
+    <%= JSON.stringify(transaction, null, 5) %>
+</pre>
+
+<!-- Form to update the transaction item -->
+<form method="post" action="/transactions/update">
+    
+    <!-- Hidden input field to send the id of the item to be updated -->
+    <input type="hidden" name="id" value="<%= transaction._id %>">
+    
+    <!-- Input field to update the description of the item -->
+    <label for="description">Description:</label>
+    <input type="text" name="description" id="description" value="<%= transaction.description %>">
+    <br>
+    
+    <!-- Input field to update the amount of the item -->
+    <label for="amount">Amount:</label>
+    <input type="number" name="amount" id="amount" value="<%= transaction.amount %>">
+    <br>
+    
+    <!-- Input field to update the category of the item -->
+    <label for="category">Category:</label>
+    <input type="text" name="category" id="category" value="<%= transaction.category %>">
+    <br>
+    
+    <!-- Input field to update the date of the item -->
+    <label for="date">Date:</label>
+    <input type="date" name="date" id="date" value="<%= transaction.date %>">
+    <br>
+    
+    <!-- Submit button to update the item -->
+    <input type="submit" value="Update">
+</form>
