@@ -1,0 +1,85 @@
+<!-- Load the stylesheet -->
+<link rel='stylesheet' href='/stylesheets/style.css' />
+
+<!-- The title of the page -->
+<h1>ChatGPT</h1>
+
+<!-- The chat history header and list -->
+<h2><%= chat %></h2>
+<div id="form-container">
+  <div id="history-container">
+    <h2>Chat History</h2>
+    <ul id="chat-history">
+      <!-- Loop through each message in the chat history and display it -->
+      <% for(let i=0; i < chat.length; i++) { %>
+        <li>
+          <%= chat[i] %>
+        </li>
+      <% } %>
+    </ul>
+  </div>
+
+  <!-- The chat input and submit button -->
+  <div id="chat-container">
+    <div id="record"></div>
+    <div id="chat-sub">
+      <input type="text" id="chat-input" name="content" placeholder="Enter your question...">
+      <button id="submit-btn">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- The JavaScript code that handles the chat functionality -->
+<script>
+  // Get references to the HTML elements we need to interact with
+  const submitBtn = document.querySelector('#submit-btn');
+  const chatInput = document.querySelector('#chat-input');
+  const record = document.querySelector('#record');
+
+  // Get the current URL and extract the chat ID from it
+  const url = window.location.href;
+  const chatId = url.split('/').pop();
+
+  // Listen for clicks on the submit button and send the chat message to the server
+  submitBtn.addEventListener('click', () => {
+    appendRequest(chatInput.value);
+    sendAskRequest(chatInput.value, chatId).then(data => {
+      console.log(data);
+      appendResponse(data.res);
+      chatInput.value = "";
+    });
+  });
+
+  // Append a user's request message to the chat record
+  const appendRequest = (str) => {
+    const block = document.createElement('div');
+    block.classList.add('inf');
+    const p = document.createElement('p');
+    p.innerText = str;
+    p.classList.add('request');
+    block.appendChild(p);
+    record.appendChild(block);
+  };
+
+  // Append the server's response message to the chat record
+  const appendResponse = (str) => {
+    const block = document.createElement('div');
+    block.classList.add('inf');
+    const p = document.createElement('p');
+    p.innerText = str;
+    p.classList.add('response');
+    block.appendChild(p);
+    record.appendChild(block);
+  };
+
+  // Send a request to the server to process the user's chat message
+  const sendAskRequest = (content, chatId) => {
+    return fetch('/ask', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ content, chatId })
+    }).then(res => res.json());
+  };
+</script>
